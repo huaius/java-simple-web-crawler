@@ -27,6 +27,10 @@ dependencies {
 
     // jsoup HTML parser library @ https://jsoup.org/
     implementation 'org.jsoup:jsoup:1.22.2'
+
+    // https://projectlombok.org
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

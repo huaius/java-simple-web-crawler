@@ -11,8 +11,8 @@ public class App {
 
     public static void main(String[] args) {
         final WebPageParser parser = new WebPageParser();
-        final WebCrawler crawler = new WebCrawler(parser);
-        crawler.run("https://crawlme.monzo.com/");
+        final WebCrawler crawler = new WebCrawler(parser, "https://crawlme.monzo.com/");
+        crawler.run();
     }
 }
 

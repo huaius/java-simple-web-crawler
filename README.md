@@ -4,6 +4,11 @@ Given a starting URL, the crawler should visit each URL it finds on the same dom
 ### Solution
 
 
+Classes:
+* App: Entry to run the crawler.
+* WebCrawler: Module to crawl the site. (Ignore links to other domains)
+* WebPageParser: Module to get all hyperlinks of a web page
+
 ### Usage guide
 
 Run the app:
@@ -22,5 +27,3 @@ Show all tasks:
 ```bash
 ./gradlew tasks
 ```
-
-![image](https://github.com/huaius/java-gradle-template/blob/main/config/images/sample.png?raw=true)

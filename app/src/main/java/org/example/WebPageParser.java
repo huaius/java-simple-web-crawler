@@ -5,9 +5,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 public class WebPageParser {
     private static final String LINK = "a";
@@ -22,20 +22,20 @@ public class WebPageParser {
         }
     }
 
-    public ArrayList<Element> getLinks(final Document doc) {
-        return doc.select(LINK);
+    public Set<Element> getLinks(final Document doc) {
+        return new HashSet<>(doc.select(LINK));
     }
 
     public String getLinkUrl(final Element link) {
         return link.attr(HREF);
     }
 
-    public List<Element> process(final String url) {
+    public Set<Element> process(final String url) {
         final Optional<Document> doc = getDocument(url);
         if (doc.isPresent()) {
             return getLinks(doc.get());
         } else {
-            return List.of();
+            return Set.of();
         }
     }
 }
