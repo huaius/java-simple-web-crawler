@@ -4,10 +4,18 @@ Given a starting URL, the crawler should visit each URL it finds on the same dom
 ### Solution
 
 
-Classes:
+### Classes
 * App: Entry to run the crawler.
 * WebCrawler: Module to crawl the site. (Ignore links to other domains)
 * WebPageParser: Module to get all hyperlinks of a web page
+
+### Future work
+* Improve test coverage of WebPageParser with PowerMockito
+* Currently unit tests relies on network connection, and actually crawl the whole site (very slow), which should be mocked with PowerMockito
+* Retry when failing to get web page
+
+### Test coverage
+80%
 
 ### Usage guide
 

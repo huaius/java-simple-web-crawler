@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class WebPageParser {
     private static final String LINK = "a";
@@ -22,15 +23,17 @@ public class WebPageParser {
         }
     }
 
-    public Set<Element> getLinks(final Document doc) {
-        return new HashSet<>(doc.select(LINK));
+    public Set<String> getLinks(final Document doc) {
+        return doc.select(LINK).stream()
+                .map(this::getLinkUrl)
+                .collect(Collectors.toSet());
     }
 
     public String getLinkUrl(final Element link) {
         return link.attr(HREF);
     }
 
-    public Set<Element> process(final String url) {
+    public Set<String> process(final String url) {
         final Optional<Document> doc = getDocument(url);
         if (doc.isPresent()) {
             return getLinks(doc.get());
