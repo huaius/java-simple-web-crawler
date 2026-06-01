@@ -1,3 +1,9 @@
+### Requirement
+Given a starting URL, the crawler should visit each URL it finds on the same domain. It should print each URL visited, and a list of links found on that page. The crawler should be limited to one subdomain - so when you start with *https://crawlme.monzo.com/*, it would crawl all pages on the crawlme.monzo.com website, but not follow external links, for example to facebook.com, monzo.com or community.monzo.com.
+
+### Solution
+
+
 ### Usage guide
 
 Run the app:
@@ -16,28 +22,5 @@ Show all tasks:
 ```bash
 ./gradlew tasks
 ```
-
-### How to copy a repository
-```bash
-mkdir foo; cd foo 
-# move to a scratch dir
-
-git clone --bare https://github.com/exampleuser/old-repository.git
-# Make a bare clone of the repository
-
-cd old-repository.git
-git push --mirror https://github.com/exampleuser/new-repository.git
-# Mirror-push to the new repository
-
-cd ..
-rm -rf old-repository.git  
-# Remove our temporary local repository
-```
-
-### Reference
-https://medium.com/ringcentral-developers/how-to-start-a-new-java-project-without-an-ide-2713614938d0
-
-![image](https://myoctocat.com/assets/images/base-octocat.svg)
-
 
 ![image](https://github.com/huaius/java-gradle-template/blob/main/config/images/sample.png?raw=true)

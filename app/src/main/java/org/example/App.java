@@ -10,7 +10,9 @@ public class App {
     }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        final WebPageParser parser = new WebPageParser();
+        final WebCrawler crawler = new WebCrawler(parser);
+        crawler.run("https://crawlme.monzo.com/");
     }
 }
 
