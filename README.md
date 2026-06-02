@@ -5,7 +5,7 @@ Given a starting URL, the crawler should visit each URL it finds on the same dom
 Consider the pages form a graph, do a BFS
 1. Create a hash store to save visited pages
 2. Create a group of pages to start with, initially containing only 1 root page
-3. Parallelly for each page in the group: 
+3. Parallelly for each page in the group: (pool size set to 32, which has better result in my env)
    1. skip if already visited or outside of domain; 
    2. get page content and retrieve all child links
    3. save the page url and all corresponding links to the hash store
@@ -13,7 +13,7 @@ Consider the pages form a graph, do a BFS
 4. output the hash store to a file
 
 ### Result
-Content of output file `app/all_site_links.txt`
+Total crawling took about 20 minutes, results were writtn to `app/all_site_links.txt`
 ```bash
 https://crawlme.monzo.com/index.html
 ==> https://crawlme.monzo.com/services.html
