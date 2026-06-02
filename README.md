@@ -10,12 +10,13 @@ Given a starting URL, the crawler should visit each URL it finds on the same dom
 * WebPageParser: Module to get all hyperlinks of a web page
 
 ### Future work
-* Improve test coverage of WebPageParser with PowerMockito
-* Currently unit tests relies on network connection, and actually crawl the whole site (very slow), which should be mocked with PowerMockito
+* Improve test code coverage of WebPageParser with PowerMockito
+* Currently unit tests relies on network connection, to be improved with PowerMockito
 * Retry when failing to get web page
+* Add edge test cases
 
-### Test coverage
-80%
+### Code coverage
+91%
 
 ### Usage guide
 

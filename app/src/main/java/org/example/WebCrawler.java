@@ -17,12 +17,14 @@ public class WebCrawler {
     private final String rootUrl;
     private final String domain;
     private final Map<String, Set<String>> allPages;
+    private final boolean isTesting;
 
-    public WebCrawler(final WebPageParser parser, final String urlAddress) {
+    public WebCrawler(final WebPageParser parser, final String urlAddress, final boolean testing) {
         webPageParser = parser;
         rootUrl = urlAddress;
         domain = getDomainName(rootUrl);
         allPages = new HashMap<>();
+        isTesting = testing;
     }
 
     @SneakyThrows
@@ -30,10 +32,17 @@ public class WebCrawler {
         ForkJoinPool customThreadPool = new ForkJoinPool(16);
 
         Set<String> pageUrls = Set.of(rootUrl);
+        int level = 0;
         while (!pageUrls.isEmpty()) {
-            Set<String> finalPageUrls = pageUrls;
+            level++;
+            if (isTesting && level > 3) {
+                break;
+            }
+            System.out.println("======== Current level: " + level);
+            final Set<String> finalPageUrls = pageUrls;
             pageUrls = customThreadPool.submit(
                     () -> finalPageUrls.parallelStream()
+                            .filter(url -> !allPages.containsKey(url) && isInScope(url))
                             .map(this::processUrl)
                             .flatMap(Set::stream)
                             .collect(Collectors.toSet())).get();
@@ -43,13 +52,9 @@ public class WebCrawler {
     }
 
     Set<String> processUrl(final String url) {
-        if (!allPages.containsKey(url) && isInScope(url)) {
-            final Set<String> links = webPageParser.process(url);
-            allPages.put(url, links);
-            return links;
-        } else {
-            return Set.of();
-        }
+        final Set<String> links = webPageParser.process(url);
+        allPages.put(url, links);
+        return links;
     }
 
     void outputPages() {

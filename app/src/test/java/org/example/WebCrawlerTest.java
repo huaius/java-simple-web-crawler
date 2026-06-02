@@ -10,7 +10,7 @@ public class WebCrawlerTest {
     @Before
     public void setUp() throws Exception {
         WebPageParser parser = new WebPageParser();
-        crawler = new WebCrawler(parser, "https://crawlme.monzo.com/");
+        crawler = new WebCrawler(parser, "https://crawlme.monzo.com/", true);
     }
 
     @Test

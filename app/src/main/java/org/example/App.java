@@ -10,7 +10,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        new WebCrawler(new WebPageParser(), "https://crawlme.monzo.com/").run();
+        new WebCrawler(new WebPageParser(), "https://crawlme.monzo.com/", false).run();
     }
 }
 
