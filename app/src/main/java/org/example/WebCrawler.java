@@ -1,7 +1,6 @@
 package org.example;
 
 import lombok.SneakyThrows;
-import org.jsoup.nodes.Element;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -9,9 +8,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class WebCrawler {
+    private static final Logger LOGGER = Logger.getLogger( WebCrawler.class.getName() );
 
     private final WebPageParser webPageParser;
     private final String rootUrl;
@@ -38,7 +40,7 @@ public class WebCrawler {
             if (isTesting && level > 3) {
                 break;
             }
-            System.out.println("======== Current level: " + level);
+            LOGGER.info("======== Current level: " + level);
             final Set<String> finalPageUrls = pageUrls;
             pageUrls = customThreadPool.submit(
                     () -> finalPageUrls.parallelStream()
@@ -52,6 +54,7 @@ public class WebCrawler {
     }
 
     Set<String> processUrl(final String url) {
+        //LOGGER.info("Processing: " + url);
         final Set<String> links = webPageParser.process(url);
         allPages.put(url, links);
         return links;
@@ -79,7 +82,6 @@ public class WebCrawler {
     }
 
     private boolean isInScope(final String url) {
-        System.out.println(url);
         final String thisDomain = getDomainName(url);
         return Objects.equals(thisDomain, domain);
     }
