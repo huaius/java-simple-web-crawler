@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.ForkJoinPool;
 import java.util.stream.Collectors;
 
 public class WebCrawler {
@@ -24,14 +25,20 @@ public class WebCrawler {
         allPages = new HashMap<>();
     }
 
+    @SneakyThrows
     public void run() {
+        ForkJoinPool customThreadPool = new ForkJoinPool(16);
+
         Set<String> pageUrls = Set.of(rootUrl);
         while (!pageUrls.isEmpty()) {
-            pageUrls = pageUrls.parallelStream()
-                    .map(this::processUrl)
-                    .flatMap(Set::stream)
-                    .collect(Collectors.toSet());
+            Set<String> finalPageUrls = pageUrls;
+            pageUrls = customThreadPool.submit(
+                    () -> finalPageUrls.parallelStream()
+                            .map(this::processUrl)
+                            .flatMap(Set::stream)
+                            .collect(Collectors.toSet())).get();
         }
+        customThreadPool.shutdown();
         outputPages();
     }
 
