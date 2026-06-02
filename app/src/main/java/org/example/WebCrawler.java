@@ -2,18 +2,20 @@ package org.example;
 
 import lombok.SneakyThrows;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ForkJoinPool;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 public class WebCrawler {
     private static final Logger LOGGER = Logger.getLogger( WebCrawler.class.getName() );
+    private static final String FILE_NAME = "all_site_links.txt";
 
     private final WebPageParser webPageParser;
     private final String rootUrl;
@@ -31,7 +33,7 @@ public class WebCrawler {
 
     @SneakyThrows
     public void run() {
-        ForkJoinPool customThreadPool = new ForkJoinPool(16);
+        ForkJoinPool customThreadPool = new ForkJoinPool(32);
 
         Set<String> pageUrls = Set.of(rootUrl);
         int level = 0;
@@ -60,14 +62,20 @@ public class WebCrawler {
         return links;
     }
 
+    @SneakyThrows
     void outputPages() {
+        LOGGER.info("Writing result to file: " + FILE_NAME);
+        final FileWriter myWriter = new FileWriter(FILE_NAME);
+
         for(String pageUrl : allPages.keySet()) {
             final Set<String> links = allPages.get(pageUrl);
-            System.out.println(pageUrl);
-            links.forEach(link -> {
-                System.out.println("==> " + link);
-            });
+            myWriter.write(pageUrl + "\n");
+            for (final String link: links) {
+                myWriter.write("==> " + link + "\n");
+            }
         }
+        myWriter.close();  // must close manually
+        LOGGER.info("Complete.");
     }
 
     @SneakyThrows
